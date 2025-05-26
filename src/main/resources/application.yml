@@ -5,3 +5,15 @@ spring:
   cloud:
     gateway:
       routes:
+        - id: kafka-producer-endpoint
+          uri: http://kafka-producer.back.svc.cluster.local
+          predicates:
+            - Path=/tickets/**
+          filters:
+            - RewritePath=/(?<path>.*), /${path}
+        - id: websocket-endpoint
+          uri: http://websocket-websocket-server.back.svc.cluster.local
+          predicate:
+            - Path=/websocket/**
+          filter:
+            - RewritePath=/(?<path>.*), /${path}
